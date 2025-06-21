@@ -11,6 +11,7 @@ function App() {
     </div>
   );
   // اضافه کردن شرط
+  //ep 1 00:48:36
   const age = 30;
   if (age > 20) console.log("over age");
   else console.log("under age");
