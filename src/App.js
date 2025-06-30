@@ -18,6 +18,7 @@ function App() {
     const course = {
       id: lastId + 1,
       courseName: newcourse,
+      iscompleted: false,
     };
 
     const newcourselist = [...courselist, course];
@@ -32,6 +33,16 @@ function App() {
     });
     setcourselist(newcourselist);
   };
+  //e04 2:07:33
+  const completeCourse = (courseId) => {
+    const newCourseList = courselist.map((course) =>
+      course.id === courseId
+        ? { ...course, iscompleted: !course.iscompleted }
+        : course
+    );
+    setcourselist(newCourseList);
+  };
+
   return (
     <div className="App">
       <div className="add-course">
@@ -52,7 +63,12 @@ function App() {
             //   </button>
             // </div>
 
-            <Course course={course} key={index} deletecourse={deletecourse} />
+            <Course
+              course={course}
+              key={index}
+              deletecourse={deletecourse}
+              completecourse={completeCourse}
+            />
           );
         })}
       </div>
