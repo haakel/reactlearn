@@ -1,40 +1,16 @@
-import "./App.css";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Nav from "./pages/Nav";
-import Profile from "./pages/Profile";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { useState, createContext } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// Custom hook
+// useState useContext useEffect
 
-export const profileContext = createContext();
+import { useState } from "react";
+import "./App.css";
+import { useTaggle } from "./useTaggle";
+// e10 - 4:33:53
 function App() {
-  //e08 - 3:56:42
-  const client = new QueryClient({
-    defaultOptions: {
-      queries: { refetchOnWindowFocus: false },
-      mutations: {},
-    },
-  });
-  const [username, setUsername] = useState("hamid akbari");
+  const [isVisible, toggle] = useTaggle();
   return (
     <div className="App">
-      <QueryClientProvider client={client}>
-        <profileContext.Provider value={{ username, setUsername }}>
-          <Router>
-            <Nav />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/profile" element={<Profile />} />{" "}
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="*" element={<h1>Not found</h1>} />
-            </Routes>
-            <div>footer</div>
-          </Router>
-        </profileContext.Provider>
-      </QueryClientProvider>
+      <button onClick={toggle}>{isVisible ? "Hide" : "Show"}</button>
+      {isVisible && <h1>This is my hidden text</h1>}
     </div>
   );
 }
