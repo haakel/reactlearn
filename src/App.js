@@ -6,33 +6,35 @@ import Nav from "./pages/Nav";
 import Profile from "./pages/Profile";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useState, createContext } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export const profileContext = createContext();
 function App() {
-  //e07 - 3:38:18
+  //e08 - 3:56:42
+  const client = new QueryClient({
+    defaultOptions: {
+      queries: { refetchOnWindowFocus: false },
+      mutations: {},
+    },
+  });
   const [username, setUsername] = useState("hamid akbari");
   return (
     <div className="App">
-      <profileContext.Provider value={{ username, setUsername }}>
-        <Router>
-          <Nav />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            {/* <Route path="/" element={<Home username={username} />} /> */}
-            <Route path="/profile" element={<Profile />} />{" "}
-            {/* <Route
-              path="/profile"
-              element={
-                <Profile setUsername={setUsername} username={username} />
-              }
-            /> */}
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="*" element={<h1>Not found</h1>} />
-          </Routes>
-          <div>footer</div>
-        </Router>
-      </profileContext.Provider>
+      <QueryClientProvider client={client}>
+        <profileContext.Provider value={{ username, setUsername }}>
+          <Router>
+            <Nav />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/profile" element={<Profile />} />{" "}
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="*" element={<h1>Not found</h1>} />
+            </Routes>
+            <div>footer</div>
+          </Router>
+        </profileContext.Provider>
+      </QueryClientProvider>
     </div>
   );
 }
